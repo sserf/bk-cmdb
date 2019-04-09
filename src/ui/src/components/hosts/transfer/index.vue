@@ -101,9 +101,9 @@
             }
         },
         computed: {
-            ...mapGetters('objectBiz', ['business']),
+            ...mapGetters('objectBiz', ['authorizedBusiness']),
             currentBusiness () {
-                return this.business.find(item => item['bk_biz_id'] === this.businessId)
+                return this.authorizedBusiness.find(item => item['bk_biz_id'] === this.businessId)
             },
             hostIds () {
                 return this.selectedHosts.map(host => host['host']['bk_host_id'])
@@ -171,7 +171,7 @@
                     })
                 ]).then(([instTopo, internalTopo]) => {
                     const moduleModel = this.getModelByObjId('module')
-                    const internalModule = internalTopo.module.map(module => {
+                    const internalModule = (internalTopo.module || []).map(module => {
                         return {
                             'default': ['空闲机', 'idle machine'].includes(module['bk_module_name']) ? 1 : 2,
                             'bk_obj_id': 'module',
